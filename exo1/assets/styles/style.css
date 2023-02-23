@@ -1,5 +1,35 @@
 /*Styles*/
 
-h1 {
-    color: red;
+#board{
+    max-width: 50%;
+    display: flex;
+    flex-wrap: wrap;
 }
+
+.box {
+    width: 75px;
+    height: 75px;
+    border: 1px solid #000;
+    background-color: rgba(212, 250,76);
+    font-size: 3em;
+    text-align: center;
+    line-height: 75px;
+    margin: 5px;
+    animation: appear 1s;
+    border-radius: 6px;
+}
+
+.box-clicked{
+    background-color: #ccc;
+    color: #ccc;
+}
+
+@keyframes appear{
+    from{
+        transform: scale(0) rotate(180deg);
+    }
+    to {
+        transform: scale(1) rotate(0deg);
+    }
+}
+
