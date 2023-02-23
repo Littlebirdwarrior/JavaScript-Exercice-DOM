@@ -7,9 +7,9 @@ function shuffleChildren(parent){
     let i = children.lenght, k, temp
     while(--i > 0){
         k = Math.floor(Math.random()*(i+1))
-        temp = board.childNodes[k]
-        board.childNodes[k] = board.childNodes[i]
-        board.appendChild(temp)
+        temp = children[k]
+        children[k] = children[i]
+        parent.appendChild(temp)
     }
 }
 
@@ -20,7 +20,7 @@ box.classList.add('box')
 //selectionnner contenant
 const board = document.querySelector('#board')
 
-
+let nb = 1
 
 //génerer cartes et les numeroté
 for(let i = 1; i <= 10; i++){
@@ -29,8 +29,33 @@ for(let i = 1; i <= 10; i++){
     board.appendChild(newbox)
 
     newbox.addEventListener('click', function(){
-    console.log("Boite n°"+ i +", click !");
-    })
+        
+        if(i == nb){
+            console.log('cas victoire');
+            newbox.classList.add("box-clicked")
+            //1
+            if(nb > board.children.length){
+                alert("Victoire !")
+            }
+            nb++
+        }
+        //2
+        else if(i>nb){
+            console.log('erreur');
+            alert("Erreur !")
+            nb = 1
+            board.querySelectorAll(".box-clicked").forEach(function(validBox){
+                validBox.classList.remove("box-clicked")
+            })
+        }
+        //3
+        else{
+            console.log('deja cliqué');
+            alert("Deja cliqué")
+        }
+
+        })
+
 }
 
     
