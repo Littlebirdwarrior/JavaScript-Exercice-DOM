@@ -4,7 +4,7 @@
 //mélanger les cartes
 function shuffleChildren(parent){
     let children = parent.children
-    let i = children.lenght, k, temp
+    let i = children.length, k, temp
     while(--i > 0){
         k = Math.floor(Math.random()*(i+1))
         temp = children[k]
@@ -47,13 +47,14 @@ for(let i = 1; i <= 10; i++){
             board.querySelectorAll(".box-clicked").forEach(function(validBox){
                 validBox.classList.remove("box-clicked")
             })
+            
         }
         //3
         else{
             console.log('deja cliqué');
             alert("Deja cliqué")
         }
-
+        shuffleChildren(board)
         })
 
 }

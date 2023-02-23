@@ -17,6 +17,8 @@
     margin: 5px;
     animation: appear 1s;
     border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.8s, color 0.8s, transform 0.8s;
 }
 
 .box-clicked{
