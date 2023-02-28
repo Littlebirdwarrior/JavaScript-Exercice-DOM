@@ -83,9 +83,9 @@ function displayCard(){
                 newbox.classList.add("box-clicked");
                 //si j'arrive à la 10e case, je gagne le jeu
                 if(nb == board.children.length){
+                        stopChrono();
                     //si success, la fonction showReaction s'execute
                     board.querySelectorAll(".box").forEach(function (box){
-                        stopChrono();
                         showReaction("success", box)
                     })
                 }
@@ -109,7 +109,7 @@ function displayCard(){
                 console.log('deja cliqué');
                 showReaction("notice", newbox)
             }
-            //Quoi qu'il arrive, on shuffle les cartes
+            //Quoi quel que soit le cas, on shuffle les cartes a chaque sortie de condition
             shuffleChildren(board)
         })
 
@@ -127,63 +127,70 @@ let timer; // Stocke l'ID du chronomètre
 function startChrono() {
     timer = setInterval(function() {
         chrono++;
-        displayChrono();
+        displayRunningTimer();
     }, 1000); // Exécute la fonction toutes les secondes (1000 ms)
 }
 
 function stopChrono() {
-    //comparer les temps
-    getTheBestChrono();
-    //reset le timer
-    clearInterval(timer); // Arrête le chronomètre
-    resetChrono();//reset le chronometre
+    // Arrête le chronomètre et stocker le resultat
+    clearInterval(timer);
+    let gameChrono = chrono;
+    //afficher le chrono optenu
+    console.log('mon temps pour cette partie', gameChrono)
+    resetChrono();
+    displayChrono(gameChrono);
+    displayRunningTimer();
 }
 
+//Reset le chrono
 function resetChrono() {
     chrono = 0; // Réinitialise le temps
-    //afficher le score
-    displayChrono();
-    //afficher le meilleurs score
-    getTheBestChrono();
 }
 
-//Comparer les temps
-function getTheBestChrono() {
-    let chrono = 1000
-    //en millisecondes
-    // Vérifie si le score actuel est meilleur que le meilleur score stocké localement
-    if(localStorage.getItem("bestChrono")) {
-        let bestChrono = parseInt(localStorage.getItem("bestChrono"));
-        if (chrono < bestChrono) {
-            localStorage.setItem("bestChrono", chrono.toString());
-        }
-    } else {
-        localStorage.setItem("bestChrono", chrono.toString());
-    }
+// //Comparer les temps
+// function getTheBestChrono() {
+//     //en millisecondes
+//     // Vérifie si le score actuel est meilleur que le meilleur score stocké localement
+//     if(localStorage.getItem("bestChrono")) {
+//         let bestChrono = parseInt(localStorage.getItem("bestChrono"));
+//         if (setChrono < bestChrono) {
+//             localStorage.setItem("bestChrono", setChrono.toString());
+//         }
+//     } else {
+//         localStorage.setItem("bestChrono", setChrono.toString());
+//     }
+//
+//     // Récupère le meilleur temps stocké localement
+//     let bestChrono = parseInt(localStorage.getItem("bestChrono"));
+//
+//     // renvois le meilleur temps
+//     console.log("Le meilleur temps est : " + bestChrono + " millisecondes");
+//     return bestChrono
+// }
 
-    // Récupère le meilleur temps stocké localement
-    let bestChrono = parseInt(localStorage.getItem("bestChrono"));
-
-    // renvois le meilleur temps
-    console.log("Le meilleur temps est : " + bestChrono + " millisecondes");
-    return bestChrono
-}
-
-// Affiche le chrono actuel
-function displayChrono() {
+// Affiche le timer qui décroit
+function displayRunningTimer() {
     let minutes = Math.floor(chrono / 60);
     let seconds = chrono % 60;
+    let runningTimer = minutes.toString().padStart(2, "0") + ":" + seconds.toString().padStart(2, "0");
+    document.getElementById("timer").innerHTML = runningTimer; // Affiche le temps dans une balise HTML
+}
+
+//Affiche le score de la partie
+function displayChrono(gameChrono) {
+    let minutes = Math.floor(gameChrono / 60);
+    let seconds = gameChrono % 60;
     let chronoDisplay = minutes.toString().padStart(2, "0") + ":" + seconds.toString().padStart(2, "0");
     document.getElementById("chrono").innerHTML = chronoDisplay; // Affiche le temps dans une balise HTML
 }
 
 // Affiche le meilleur temps
-function displayBestChrono(bestChrono) {
-    let minutes = Math.floor(bestChrono / 60);
-    let seconds = bestChrono % 60;
-    let bestChronoDisplay = minutes.toString().padStart(2, "0") + ":" + seconds.toString().padStart(2, "0");
-    document.getElementById("bestChrono").innerHTML = bestChronoDisplay; // Affiche le temps dans une balise HTML
-}
+// function displayBestChrono(bestChrono) {
+//     let minutes = Math.floor(bestChrono / 60);
+//     let seconds = bestChrono % 60;
+//     let bestChronoDisplay = minutes.toString().padStart(2, "0") + ":" + seconds.toString().padStart(2, "0");
+//     document.getElementById("bestChrono").innerHTML = bestChronoDisplay; // Affiche le temps dans une balise HTML
+// }
 
 
 //JOUER
