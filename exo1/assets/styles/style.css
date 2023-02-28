@@ -24,7 +24,12 @@
 .box-clicked{
     background-color: #ccc;
     color: #ccc;
+    transform: scale(0.8);
 }
+
+.box.error{ color: darkred; background: indianred;}
+.box.success{ color: darkgreen; background: darkseagreen;}
+.box.notice{ color: darkblue; background: lightskyblue;}
 
 @keyframes appear{
     from{

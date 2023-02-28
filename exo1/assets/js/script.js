@@ -21,6 +21,21 @@ function shuffleChildren(parent){
     }
 }
 
+//Afficher les messages d'erreur
+
+/*Au clic sur une boite, la fonction showReaction()
+sera appelée pour provoquer une réaction visuelle sur cette même boite.*/
+function showReaction(type, clickedBox){
+    clickedBox.classList.add(type) //type (une chaine de caractères) correspondant au type de réaction souhaité
+    //si ce type est différent de success
+    if(type!== "success"){
+        //j'ajoute un type sur les box, qui se retire à 800ms
+        setTimeout(function (){
+            clickedBox.classList.remove(type)
+        }, 800)
+    }
+}
+
 //generer les cartes
 const box = document.createElement('div')
 box.classList.add('box')
@@ -45,16 +60,19 @@ for(let i = 1; i <= 10; i++){
             newbox.classList.add("box-clicked");
             //si j'arrive à la 10e case, je gagne le jeu
             if(nb == board.children.length){
-                alert("Victoire !")
+                //si success, la fonction showReaction s'execute
+                board.querySelectorAll(".box").forEach(function (box){
+                    showReaction("success", box)
+                })
             }
             //a chaque tour de boucle, nb augmente de 1 : il faut cliqué sur 1, puis 2...etc
             nb++
         }
         //cas 2: si je clique sur une autre carte que 1 au début, 2 au 2e click, 3 au 3e click... etc
         else if(i>nb){
-            //pour tout numéro de carte supérieur à nb, je met une alert
+            //pour tout numéro de carte supérieur à nb, je met un message
             console.log('mauvaise case');
-            alert('Mauvaise case, recommencer')
+            showReaction("error", newbox);
             //puis je resset le jeu, nb vaut 1, et les cartes grisée sont reset
             nb = 1
             board.querySelectorAll(".box-clicked").forEach(function(validBox){
@@ -64,8 +82,8 @@ for(let i = 1; i <= 10; i++){
         }
         //cas 3: si je clique sur une carte grise
         else{
-            alert('Case déjà cliqué')
             console.log('deja cliqué');
+            showReaction("notice", newbox)
         }
         //Quoi qu'il arrive, on shuffle les cartes
         shuffleChildren(board)
