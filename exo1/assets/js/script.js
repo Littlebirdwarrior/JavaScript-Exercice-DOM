@@ -3,6 +3,25 @@
 * 1,2,3,4... ect. Si par erreur je clique, le jeu recommence,
 * A chaque tour, les cartes sont remélangée. Une carte validée est grisée*/
 
+function getMyPrompt(){
+    //Je récupére un prompt
+    let myPrompt = prompt("Avec combien de boite voulez vous jouez");
+    //au cas ou le prompt est vide, envoyer alert
+    if (myPrompt == null || myPrompt == "") {
+        alert("Veuillez entrer un chiffre")
+    } else {
+        //si le prompt n'est pas vide, chiffre en string, on le convertis en nombre
+         let promptNumber = parseInt(myPrompt);
+         //si parseInt renvois NaN, c'est que l'on ne peut pas convertir le prompt en int, dans ce cas, erreur
+         if(isNaN(promptNumber)){
+             alert("Erreur : vous n'avez PAS tapé un nombre")
+         } else {
+             //si tout est bon, on renvois le int du prompt
+             return promptNumber
+         }
+    }
+}
+
 //fonction Shuffle : mélanger les cartes
 function shuffleChildren(parent){
     let children = parent.children
@@ -46,50 +65,58 @@ const board = document.querySelector('#board')
 //Définir le compte à rebours des cartes cliqué à 1
 let nb = 1
 
-//génerer cartes et les numeroté (j'en génère 10)
-for(let i = 1; i <= 10; i++){
-    const newbox = box.cloneNode()
-    newbox.innerText = i
-    board.appendChild(newbox) //fonction appendChild injecte element dans DOM
-    //Le jeu
-    newbox.addEventListener('click', function(){
-        //cas 1: Je valide les case dans l'ordre
-        if(i == nb){
-            console.log('case validé');
-            //si la carte est bonne, elle est grisée
-            newbox.classList.add("box-clicked");
-            //si j'arrive à la 10e case, je gagne le jeu
-            if(nb == board.children.length){
-                //si success, la fonction showReaction s'execute
-                board.querySelectorAll(".box").forEach(function (box){
-                    showReaction("success", box)
-                })
+function displayCard(){
+    //recupérer le prompt en appelant la fonction
+    let prompt = getMyPrompt();
+    console.log('l\'utilisateur demande : ', prompt, 'cartes');
+    //génerer cartes et les numeroté (j'en génère 10)
+    for(let i = 1; i <= prompt; i++){
+        const newbox = box.cloneNode()
+        newbox.innerText = i
+        board.appendChild(newbox) //fonction appendChild injecte element dans DOM
+        //Le jeu
+        newbox.addEventListener('click', function(){
+            //cas 1: Je valide les case dans l'ordre
+            if(i == nb){
+                console.log('case validé');
+                //si la carte est bonne, elle est grisée
+                newbox.classList.add("box-clicked");
+                //si j'arrive à la 10e case, je gagne le jeu
+                if(nb == board.children.length){
+                    //si success, la fonction showReaction s'execute
+                    board.querySelectorAll(".box").forEach(function (box){
+                        showReaction("success", box)
+                    })
+                }
+                //a chaque tour de boucle, nb augmente de 1 : il faut cliqué sur 1, puis 2...etc
+                nb++
             }
-            //a chaque tour de boucle, nb augmente de 1 : il faut cliqué sur 1, puis 2...etc
-            nb++
-        }
-        //cas 2: si je clique sur une autre carte que 1 au début, 2 au 2e click, 3 au 3e click... etc
-        else if(i>nb){
-            //pour tout numéro de carte supérieur à nb, je met un message
-            console.log('mauvaise case');
-            showReaction("error", newbox);
-            //puis je resset le jeu, nb vaut 1, et les cartes grisée sont reset
-            nb = 1
-            board.querySelectorAll(".box-clicked").forEach(function(validBox){
-                validBox.classList.remove("box-clicked")
-            })
-            
-        }
-        //cas 3: si je clique sur une carte grise
-        else{
-            console.log('deja cliqué');
-            showReaction("notice", newbox)
-        }
-        //Quoi qu'il arrive, on shuffle les cartes
-        shuffleChildren(board)
+            //cas 2: si je clique sur une autre carte que 1 au début, 2 au 2e click, 3 au 3e click... etc
+            else if(i>nb){
+                //pour tout numéro de carte supérieur à nb, je met un message
+                console.log('mauvaise case');
+                showReaction("error", newbox);
+                //puis je resset le jeu, nb vaut 1, et les cartes grisée sont reset
+                nb = 1
+                board.querySelectorAll(".box-clicked").forEach(function(validBox){
+                    validBox.classList.remove("box-clicked")
+                })
+
+            }
+            //cas 3: si je clique sur une carte grise
+            else{
+                console.log('deja cliqué');
+                showReaction("notice", newbox)
+            }
+            //Quoi qu'il arrive, on shuffle les cartes
+            shuffleChildren(board)
         })
+
+    }
 
 }
 
+
 //A chaque rechargement de la page, je shuffle les carte
+displayCard();
 shuffleChildren(board)
