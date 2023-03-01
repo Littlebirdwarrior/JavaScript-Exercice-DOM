@@ -17,7 +17,7 @@ function getMyPrompt(){
              alert("Erreur : vous n'avez PAS tapé un nombre")
          } else {
              //si tout est bon, on renvois le int du prompt
-             return promptNumber
+             displayCard(promptNumber)
          }
     }
 }
@@ -137,7 +137,7 @@ function stopChrono() {
     clearInterval(timer);
     let gameChrono = chrono;
     //afficher le chrono optenu
-    console.log('mon temps pour cette partie', gameChrono)
+    console.log('mon temps pour cette partie est', gameChrono, 'ms')
     resetChrono();
     displayChrono(gameChrono);//j'affiche mon chrono
     displayRunningTimer();//je réaffiche mon timer à 0
@@ -150,13 +150,13 @@ function resetChrono() {
 }
 
 //Comparer les temps
-function getTheBestChrono() {
-    let setChrono = 4
+function getTheBestChrono(gameChrono) {
+    let setChrono = gameChrono;
     //en millisecondes
     // Vérifie si le score actuel est meilleur que le meilleur score stocké localement
     if(localStorage.getItem("bestChrono")) {
         let bestChrono = parseInt(localStorage.getItem("bestChrono"));
-        if (setChrono < bestChrono) {
+        if ((setChrono > 0)||(setChrono < bestChrono)) {
             localStorage.setItem("bestChrono", setChrono.toString());
         }
     } else {
@@ -168,7 +168,9 @@ function getTheBestChrono() {
 
     // renvois le meilleur temps
     console.log("Le meilleur temps est : " + bestChrono + " millisecondes");
-    return bestChrono
+
+    //affichage
+    displayBestChrono(bestChrono);
 }
 
 // Affiche le timer qui décroit
@@ -201,3 +203,6 @@ function displayBestChrono(bestChrono) {
 startChrono();
 displayCard();
 shuffleChildren(board);
+
+
+
