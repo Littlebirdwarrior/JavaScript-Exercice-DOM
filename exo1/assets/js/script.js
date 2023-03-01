@@ -10,6 +10,7 @@ function getMyPrompt(){
     if (myPrompt == null || myPrompt == "") {
         console.log("vide");
         alert("Veuillez entrer un chiffre");
+        getMyPrompt();
     } else {
         //si le prompt n'est pas vide, chiffre en string, on le convertis en nombre
          let promptNumber = parseInt(myPrompt);
@@ -17,10 +18,13 @@ function getMyPrompt(){
          if(isNaN(promptNumber)){
             console.log("pas un chiffre")
              alert("Erreur : vous n'avez PAS tapé un nombre");
+             getMyPrompt();
          } else {
             console.log('prompt ok')
              //si tout est bon, on renvois le int du prompt
-             return promptNumber
+             let prompt = promptNumber;
+             //recupérer le prompt en appelant la fonction
+             displayCard(prompt)
          }
     }
 }
@@ -62,9 +66,9 @@ function showReaction(type, clickedBox){
 //Définir le compte à rebours des cartes cliqué à 1
 let nb = 1
 
-function displayCard(){
-    //recupérer le prompt en appelant la fonction
-    let prompt = getMyPrompt();
+
+function displayCard(prompt){
+
     console.log('l\'utilisateur demande : ', prompt, 'cartes');
     //génerer cartes et les numeroté (j'en génère 10)
     for(let i = 1; i <= prompt; i++){
@@ -100,7 +104,7 @@ function displayCard(){
                 //puis je resset le jeu, nb vaut 1, et les cartes grisée sont reset
                 nb = 1
                 board.querySelectorAll(".box-clicked").forEach(function(validBox){
-                    validBox.classList.remove("box-clicked")
+                    validBox.classList.remove("box-clicked");
                 })
 
             }
@@ -208,12 +212,12 @@ const box = document.createElement('div')
 const board = document.querySelector('#board')
 
 
-//Chargement
+//Chargement du jeu
 function play(){
     //generer les cartes (avec la const box)
     box.classList.add('box')
     //A chaque rechargement de la page, je shuffle les cartes (avec la const board)
-    displayCard();
+    getMyPrompt();
     shuffleChildren(board);
 }
 
