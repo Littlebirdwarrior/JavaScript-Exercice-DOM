@@ -8,16 +8,18 @@ function getMyPrompt(){
     let myPrompt = prompt("Avec combien de boite voulez vous jouez");
     //au cas ou le prompt est vide, envoyer alert
     if (myPrompt == null || myPrompt == "") {
-        alert("Veuillez entrer un chiffre")
+        console.log("vide");
+        alert("Veuillez entrer un chiffre");
     } else {
         //si le prompt n'est pas vide, chiffre en string, on le convertis en nombre
          let promptNumber = parseInt(myPrompt);
          //si parseInt renvois NaN, c'est que l'on ne peut pas convertir le prompt en int, dans ce cas, erreur
          if(isNaN(promptNumber)){
+            console.log("pas un chiffre")
              alert("Erreur : vous n'avez PAS tapé un nombre");
          } else {
+            console.log('prompt ok')
              //si tout est bon, on renvois le int du prompt
-             play()
              return promptNumber
          }
     }
@@ -42,7 +44,7 @@ function shuffleChildren(parent){
     }
 }
 
-//Afficher les messages d'erreur
+//*Afficher les messages d'erreur
 
 /*Au clic sur une boite, la fonction showReaction()
 sera appelée pour provoquer une réaction visuelle sur cette même boite.*/
@@ -56,13 +58,6 @@ function showReaction(type, clickedBox){
         }, 800)
     }
 }
-
-//generer les cartes
-const box = document.createElement('div')
-box.classList.add('box')
-
-//selectionnner contenant dans le html
-const board = document.querySelector('#board')
 
 //Définir le compte à rebours des cartes cliqué à 1
 let nb = 1
@@ -123,7 +118,7 @@ function displayCard(){
 
 }
 
-//Score et timer
+//*Score et timer
 
 //Mesurer les temps
 
@@ -203,10 +198,21 @@ function displayBestChrono(bestChrono) {
 }
 
 
-//JOUER
-//A chaque rechargement de la page, je shuffle les carte
+//*JOUER
 
+//Mes constantes
+//generer les cartes (définir les div a créer)
+const box = document.createElement('div')
+
+//selectionnner contenant dans le html ()
+const board = document.querySelector('#board')
+
+
+//Chargement
 function play(){
+    //generer les cartes (avec la const box)
+    box.classList.add('box')
+    //A chaque rechargement de la page, je shuffle les cartes (avec la const board)
     displayCard();
     shuffleChildren(board);
 }
@@ -219,7 +225,6 @@ reload.addEventListener('click', function() {
 });
 
 //Je lance le prompt
-getMyPrompt()
 
-
+play()
 
