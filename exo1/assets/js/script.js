@@ -14,10 +14,10 @@ function getMyPrompt(){
          let promptNumber = parseInt(myPrompt);
          //si parseInt renvois NaN, c'est que l'on ne peut pas convertir le prompt en int, dans ce cas, erreur
          if(isNaN(promptNumber)){
-             alert("Erreur : vous n'avez PAS tapé un nombre")
+             alert("Erreur : vous n'avez PAS tapé un nombre");
          } else {
              //si tout est bon, on renvois le int du prompt
-             displayCard(promptNumber)
+             return promptNumber
          }
     }
 }
@@ -200,8 +200,8 @@ function displayBestChrono(bestChrono) {
 
 //JOUER
 //A chaque rechargement de la page, je shuffle les carte
-startChrono();
 displayCard();
+startChrono();
 shuffleChildren(board);
 
 
