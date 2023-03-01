@@ -22,6 +22,7 @@ function getMyPrompt(){
     }
 }
 
+
 //fonction Shuffle : mélanger les cartes
 function shuffleChildren(parent){
     let children = parent.children
@@ -76,6 +77,8 @@ function displayCard(){
         board.appendChild(newbox) //fonction appendChild injecte element dans DOM
         //Le jeu
         newbox.addEventListener('click', function(){
+            //au 1er click, start chrono
+            startChrono();
             //cas 1: Je valide les case dans l'ordre
             if(i == nb){
                 console.log('case validé');
@@ -200,9 +203,13 @@ function displayBestChrono(bestChrono) {
 
 //JOUER
 //A chaque rechargement de la page, je shuffle les carte
-displayCard();
-startChrono();
-shuffleChildren(board);
+
+function play(){
+    displayCard();
+    shuffleChildren(board);
+}
+
+play()
 
 
 
