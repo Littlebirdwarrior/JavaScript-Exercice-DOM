@@ -17,6 +17,7 @@ function getMyPrompt(){
              alert("Erreur : vous n'avez PAS tapé un nombre");
          } else {
              //si tout est bon, on renvois le int du prompt
+             play()
              return promptNumber
          }
     }
@@ -114,7 +115,8 @@ function displayCard(){
                 showReaction("notice", newbox)
             }
             //Quoi quel que soit le cas, on shuffle les cartes a chaque sortie de condition
-            shuffleChildren(board)
+
+            shuffleChildren(board);
         })
 
     }
@@ -209,7 +211,15 @@ function play(){
     shuffleChildren(board);
 }
 
-play()
+//Reload
+const reload = document.getElementById('reload');
+reload.addEventListener('click', function() {
+    location.reload();
+    console.log('page rechargée');
+});
+
+//Je lance le prompt
+getMyPrompt()
 
 
 
