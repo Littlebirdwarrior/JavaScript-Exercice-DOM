@@ -18,7 +18,7 @@ function getMyPrompt(){
          if(isNaN(promptNumber)){
             console.log("pas un chiffre")
              alert("Erreur : vous n'avez PAS tapé un nombre");
-             getMyPrompt();
+             
          } else {
             console.log('prompt ok')
              //si tout est bon, on renvois le int du prompt
@@ -77,8 +77,7 @@ function displayCard(prompt){
         board.appendChild(newbox) //fonction appendChild injecte element dans DOM
         //Le jeu
         newbox.addEventListener('click', function(){
-            //au 1er click, start chrono
-            startChrono();
+            console.log('start chrono');
             //cas 1: Je valide les case dans l'ordre
             if(i == nb){
                 console.log('case validé');
@@ -87,6 +86,7 @@ function displayCard(prompt){
                 //si j'arrive à la 10e case, je gagne le jeu
                 if(nb == board.children.length){
                         stopChrono();
+                        console.log('stop chrono');
                         getTheBestChrono();
                     //si success, la fonction showReaction s'execute
                     board.querySelectorAll(".box").forEach(function (box){
@@ -218,6 +218,7 @@ function play(){
     box.classList.add('box')
     //A chaque rechargement de la page, je shuffle les cartes (avec la const board)
     getMyPrompt();
+    startChrono();
     shuffleChildren(board);
 }
 
